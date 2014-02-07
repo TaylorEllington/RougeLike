@@ -1,0 +1,3 @@
+struct Cell{
+	int Floor;
+};
