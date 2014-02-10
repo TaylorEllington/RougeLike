@@ -32,7 +32,7 @@ private:
 	void update();
 	void draw();
 	void BuildWorld();
-	void splash();
+	void splash(int x, int y, int rec);
 	void link();
 	void flood();
 

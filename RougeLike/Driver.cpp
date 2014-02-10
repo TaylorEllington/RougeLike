@@ -12,8 +12,8 @@ Driver::Driver(){
 
 	tl_init("title", x_dim ,y_dim,"tiles", 32,3);
 
-	int x_pos = 7;
-	int y_pos = 7;
+	int x_pos = 0;
+	int y_pos = 0;
 	int temp=0;
 
 	BuildWorld();
@@ -75,23 +75,23 @@ void Driver::run(){
 
 void Driver::BuildWorld(){
 	map = new Cell*[ tile_count_Y];
-	int number_of_rooms = 5;
-	int x[5];
-	int y[5];
+	int number_of_rooms = 11;
+	int x[11];
+	int y[11];
 
 	//makes grass
 	for(int y= 0; y < tile_count_Y; y++){
 	    map[y] = new Cell[tile_count_X];
 		for(int x = 0; x < tile_count_X; x++){
-			map[y][x].Floor = 0x100;
+			map[y][x].Floor = 0x000;
 		}
 	}
 	
 	//pick center of rooms
 	for( int a = 0; a < number_of_rooms; a++){
 	
-		x[a] = rand() % tile_count_X;
-		y[a] = rand() % tile_count_Y;
+		x[a] = (rand() % (tile_count_X - 4)) + 2;
+		y[a] = (rand() % (tile_count_Y - 6)) + 3;
 
 	}
 	//splash rooms
@@ -100,10 +100,42 @@ void Driver::BuildWorld(){
 		map[y[a]][x[a]].Floor = 0x101;
 
 	}
+	for (int b = 0; b <number_of_rooms; b++){
+		splash(x[b] , y[b], 5);
+		
+	}
 	//connect rooms
 	//flood fill
 
 
+
+}
+
+void Driver::splash(int x, int y, int rec){
+	if( x > 0 && x < (tile_count_X-1) && y > 0 && y < (tile_count_Y-1) && rec > 0){
+		if( map[y][x].Floor != 0x128){
+		     map[y][x].Floor = 0x128;
+		}
+
+		 
+			splash(x+1 , y+1 , rec-1 );
+			splash(x , y+1 , rec-1 );
+			splash(x-1 , y+1 , rec-1 );
+
+			splash(x-1 , y , rec-1 );
+			splash(x+1 , y , rec-1 );
+
+			splash(x+1 , y-1 , rec-1 );
+			splash(x , y-1 , rec-1 );
+			splash(x-1 , y-1 , rec-1 );
+
+
+	} else if ( x == 0 || x == (tile_count_X-1) || y == 0 || y == (tile_count_Y-1) || rec == 0){
+
+			if( map[y][x].Floor != 0x128){
+		     map[y][x].Floor = 0x129;
+		}
+	}
 
 }
 
