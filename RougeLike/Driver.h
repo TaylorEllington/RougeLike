@@ -27,7 +27,9 @@ private:
 	// vector current locations of enemies
 	vector< Creature> Enemies;
 	// player's location and stats
+
 	Player Player1;
+
 
 	void update();
 	void draw();
@@ -35,7 +37,9 @@ private:
 	void splash(int x, int y, int rec);
 	void link();
 	void flood();
+
 	void corridorLink(int me_x, int me_y, int target_x, int target_y);
+
 
 
 };

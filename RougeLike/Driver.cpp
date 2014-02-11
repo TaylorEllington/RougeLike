@@ -7,8 +7,10 @@ Driver::Driver(){
 	int x_dim = 1500;
 	int y_dim = 800;
 
+
 	tile_count_X = 32;  //CHANGE NUMBER OF TILES
 	tile_count_Y =25;   //CHANGE NUMBER OF TILES
+
 
 	tl_init("title", x_dim ,y_dim,"tiles", 32,3);
 
@@ -75,11 +77,13 @@ void Driver::run(){
 
 void Driver::BuildWorld(){
 	map = new Cell*[ tile_count_Y];
+
 	int number_of_rooms = 5;  //CHANGE TO ADD ROOMS
 	int x[11];
 	int y[11];
 
 	//makes empty space
+
 	for(int y= 0; y < tile_count_Y; y++){
 	    map[y] = new Cell[tile_count_X];
 		for(int x = 0; x < tile_count_X; x++){
@@ -89,8 +93,9 @@ void Driver::BuildWorld(){
 	
 	//pick center of rooms
 	for( int a = 0; a < number_of_rooms; a++){
-	
+
 		x[a] = (rand() % (tile_count_X - 6)) + 3;
+
 		y[a] = (rand() % (tile_count_Y - 6)) + 3;
 
 	}
@@ -105,10 +110,12 @@ void Driver::BuildWorld(){
 		
 	}
 	//connect rooms
+
 		corridorLink(x[0], y[0], x[1], y[1]);
 		for(int g = 1; g< number_of_rooms; g++){
 			corridorLink(x[g-1], y[g-1], x[g], y[g]);
 		}
+
 
 }
 
@@ -139,6 +146,7 @@ void Driver::splash(int x, int y, int rec){
 	}
 
 }
+
 
 
 void Driver::corridorLink(int me_x, int me_y, int target_x, int target_y){
