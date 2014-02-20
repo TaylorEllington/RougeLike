@@ -1,6 +1,6 @@
 #include "Creature.h"
 
-class Player
+class Player: public Creature
 {
 public:
 	

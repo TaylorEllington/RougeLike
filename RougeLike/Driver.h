@@ -1,13 +1,17 @@
-#include "Player.h"
-#include "Item.h"
+
 #include <vector>
+#include "levelMap.h"
 #include "tilelib.h"
+#include "Coordinate.h"
 #include "Cell.h"
+#include "Actor.h"
+#include "actorManager.h"
 #include <Windows.h>
 #include <iostream>
 #include <cstdlib>
 
-using namespace std;
+
+
 
 class Driver{
 
@@ -22,13 +26,13 @@ private:
 	//drawer object
 	// array[][] current level map
 	Cell** map;
+	levelMap Map;
 	// vector current locations of objects
-	vector< Item > Items;
+	//vector< Item > Items;
 	// vector current locations of enemies
-	vector< Creature> Enemies;
+	actorManager ActorManager;
 	// player's location and stats
-
-	Player Player1;
+	//Actor Player;
 
 
 	void update();

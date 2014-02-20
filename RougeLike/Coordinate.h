@@ -1,7 +1,9 @@
+#pragma once
+
 class coordinate{
 public:
 	coordinate();
-	coordinate(int, int, int, int);
+	coordinate(int, int);
 	void up();
 	void down();
 	void left();
@@ -9,6 +11,7 @@ public:
 	int get_x();
 	int get_y();
 	void teleport(int, int);
+	void teleport(coordinate);
 	void bounce();
 
 private:

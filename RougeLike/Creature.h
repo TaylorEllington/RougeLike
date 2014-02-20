@@ -1,10 +1,10 @@
 #include "Entity.h"
-class Creature
+class Creature: public Entity
 {
 public:
 
 
-private:
+protected:
 	double health;
 	double mana;
 	double speed;
