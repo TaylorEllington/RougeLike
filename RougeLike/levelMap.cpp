@@ -182,3 +182,7 @@ int levelMap::getNumberOfRooms(){
 void levelMap::setOccupied(int x, int y, bool status){
 	Map[y][x].Occupied= status;
 }
+bool levelMap::isOccupied(int x, int y){
+
+	return Map[y][x].Occupied;
+}

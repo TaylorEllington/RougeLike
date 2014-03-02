@@ -1,5 +1,5 @@
 #pragma once
-
+#include "levelMap.h";
 #include "Actor.h"
 #include "Player.h"
 #include <vector>
@@ -11,7 +11,15 @@ public:
 
 
 	vector<Actor> enemies;
-	Player Player;
+	Actor Player;
+
+	void fight(int atkr, int defr);
+	bool isAlive(int index);
+	bool isPlayerAlive();
+	int rangeToPlayer(int index);
+	int whoIsAt(int x, int y);
+
+
 
 private:
 	bool inRange();

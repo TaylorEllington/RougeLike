@@ -17,6 +17,7 @@ public:
 	int getDamageMulti();
 	int getDef();
 	int getTile();
+	void doDamage(int);
 
 	//is it alive?
 	bool isAlive();

@@ -51,7 +51,48 @@ void Driver::draw(){
 
 }
 void Driver::update(){
+	for(int x = 0; x < ActorManager.enemies.size(); x++){
+		if(!ActorManager.enemies[x].isAlive()){
+			Map.setOccupied(ActorManager.enemies[x].location.get_x() ,ActorManager.enemies[x].location.get_y() , false);
+			ActorManager.enemies.erase(ActorManager.enemies.begin() + x);
+		}
+	}
+	for(int z= 0; z < ActorManager.enemies.size(); z++){
+		if(ActorManager.rangeToPlayer(z) == 1){
+			ActorManager.fight(z, -1);
+		}else if(ActorManager.rangeToPlayer(z) < 3 && ActorManager.rangeToPlayer(z) >1 ){
 
+			Map.setOccupied(ActorManager.enemies[z].location.get_x(), ActorManager.enemies[z].location.get_y(), false);
+			if(ActorManager.enemies[z].location.get_x() > ActorManager.Player.location.get_x() ) {
+				ActorManager.enemies[z].location.left();
+				Map.setOccupied(ActorManager.enemies[z].location.get_x() , ActorManager.enemies[z].location.get_y() , true);
+			}
+
+			if(ActorManager.enemies[z].location.get_x() < ActorManager.Player.location.get_x() ) {
+				ActorManager.enemies[z].location.right();
+				Map.setOccupied(ActorManager.enemies[z].location.get_x() , ActorManager.enemies[z].location.get_y() , true);
+			}
+
+			if(ActorManager.enemies[z].location.get_y() < ActorManager.Player.location.get_y() ) {
+				ActorManager.enemies[z].location.down();
+				Map.setOccupied(ActorManager.enemies[z].location.get_x() , ActorManager.enemies[z].location.get_y() , true);
+			}
+
+			if(ActorManager.enemies[z].location.get_y() > ActorManager.Player.location.get_y() ) {
+				ActorManager.enemies[z].location.up();
+				Map.setOccupied(ActorManager.enemies[z].location.get_x() , ActorManager.enemies[z].location.get_y() , true);
+			}
+		}
+
+		
+
+
+		
+	//if npc is with in 3 of player move closer by 1
+	
+	//if npc is within 1 of player attack
+
+	}
 
 }
 void Driver::run(){
@@ -71,36 +112,56 @@ void Driver::run(){
 		
 		//tl_framestart(0);
 		draw();
-
+		bool attacking = false;
+		int attackIndex = -1;
 		
 		
 
-		if(tl_keywentdown("escape")){
+		if(tl_keywentdown("escape")  || !ActorManager.isPlayerAlive()){
 			break;
 		} 
 		if (tl_keywentdown("down")){
 			if(   Map.can_step(ActorManager.Player.location.get_x(), ActorManager.Player.location.get_y() + 1) ) {
 			    ActorManager.Player.location.down();
+			}else if(Map.isOccupied(ActorManager.Player.location.get_x(), ActorManager.Player.location.get_y() + 1)){
+				attackIndex = ActorManager.whoIsAt(ActorManager.Player.location.get_x(), ActorManager.Player.location.get_y() + 1);
+				attacking = true;
 			}
-			//x_pos++;
+			update();
 		}
 		if (tl_keywentdown("up")){
 			if(   Map.can_step(ActorManager.Player.location.get_x()   , ActorManager.Player.location.get_y() - 1 ) ) {
 			     ActorManager.Player.location.up();
+			}else if(Map.isOccupied(ActorManager.Player.location.get_x()   , ActorManager.Player.location.get_y() - 1 )){
+				attackIndex = ActorManager.whoIsAt(ActorManager.Player.location.get_x(), ActorManager.Player.location.get_y() - 1);
+				attacking = true;
 			}
-			//x_pos--;
+			update();
 		}
 		if (tl_keywentdown("left")){
 			if(   Map.can_step(ActorManager.Player.location.get_x()-1, ActorManager.Player.location.get_y()) ) {
 			     ActorManager.Player.location.left();
+			}else if(Map.isOccupied(ActorManager.Player.location.get_x()-1, ActorManager.Player.location.get_y())){
+				attackIndex = ActorManager.whoIsAt(ActorManager.Player.location.get_x()-1, ActorManager.Player.location.get_y() );
+				attacking = true;
 			}
-			//y_pos--;
+			update();
 		}
 		if (tl_keywentdown("right")){
 			if(   Map.can_step(ActorManager.Player.location.get_x()+1, ActorManager.Player.location.get_y()) ) {
 			     ActorManager.Player.location.right();
+			}else if(Map.isOccupied(ActorManager.Player.location.get_x()+1, ActorManager.Player.location.get_y())){
+				attackIndex = ActorManager.whoIsAt(ActorManager.Player.location.get_x()+1, ActorManager.Player.location.get_y());
+				attacking = true;
 			}
-			//y_pos++;
+			update();
+		}
+
+		//is attacking
+		if(attacking){
+			
+			ActorManager.fight(-1, attackIndex);
+
 		}
 		
 		
@@ -111,6 +172,8 @@ void Driver::BuildWorld(){
 	coordinate  temp;
 	temp =  Map.setup(100, 100, 20) ;
 	ActorManager.Player.location.teleport(temp.get_x(), temp.get_y() );
+	ActorManager.Player.birth(50,100,40,10,3,0x000,"Player1");
+	
 
 
 	//put 1 creature in each room;

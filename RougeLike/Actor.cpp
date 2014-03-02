@@ -40,3 +40,9 @@ void Actor::birth(int health_, int mana_ , int damage_ , int multi_ , int def_, 
 	name = name_;
 
 }
+
+void Actor::doDamage(int damage){
+	if(damage > 0){
+		health = health - damage;
+	}
+}

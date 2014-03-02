@@ -1,5 +1,6 @@
 #pragma once
 #include "Cell.h"
+
 #include <iostream>
 #include "Coordinate.h"
 #include <cstdlib>
@@ -24,6 +25,7 @@ public:
 	int getNumberOfRooms();
 
     void setOccupied(int x, int y, bool status);
+	bool isOccupied(int x, int y);
 
 
 	~levelMap();
