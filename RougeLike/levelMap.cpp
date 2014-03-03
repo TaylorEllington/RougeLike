@@ -14,6 +14,7 @@ coordinate levelMap::setup(int x_size, int y_size, int roomCount){
 	}
 	return (levelGen());
 }
+
 int levelMap::get_tile(int x, int y){
 	if(x >= 0 && x < x_dim && y >= 0 && y < y_dim){
 	    return Map[y][x].Floor;

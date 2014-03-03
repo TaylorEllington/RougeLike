@@ -5,8 +5,6 @@
 struct Cell{
 	int Floor;
 	bool Occupied;
-	Actor * Actor;
-	Item * Item;
-
+	//Actor * Actor;
 
 };

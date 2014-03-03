@@ -62,7 +62,7 @@
 		return total;
 	}
 	int actorManager::whoIsAt(int x, int y){
-		int itsMe = 0;
+		int itsMe = -1;
 		for(int a= 0;a < enemies.size(); a++){
 			if(enemies[a].location.get_x() == x && enemies[a].location.get_y() == y){
 				itsMe = a;
@@ -71,4 +71,24 @@
 		return itsMe;
 		
 
+	}
+	int actorManager::whatIsAt(int x, int y){
+		int itsMe = -1;
+		
+		for(int a= 0;a <loot.size() ; a++){
+			if(loot[a].location.get_x() == x && loot[a].location.get_y() == y){
+				itsMe = a;
+			}
+		}
+		return itsMe;
+		
+
+	}
+	void actorManager::pickUp(int index){
+		if (index > -1){
+		Item temp;
+		temp = loot[index];
+		loot.erase(loot.begin() + index);
+		inventory.push_back(temp);
+		}
 	}

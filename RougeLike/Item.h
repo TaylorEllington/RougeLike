@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "Coordinate.h"
 #include <cstdlib>
 class Item: Entity
 {
@@ -9,6 +10,7 @@ public:
 	int getBoostMulti();
 	void rollItem();
 	int getItemType();
+	coordinate location; 
 	
 private:
 	void roll();

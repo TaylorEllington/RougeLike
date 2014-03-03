@@ -20,14 +20,10 @@ void Item::rollItem(){
 		uses = rand() %100;
 		boostDamage = rand() % 50;
 		type = rand() % 3;
-		switch(type){
-		case 0:
+		
 			tile=0x254; //weapon
-		case 1:
-			tile = 0x220; // potion
-		case 2:
-			tile = 0x2D3;  //armor
-		}
+		
+		
 
 	}
 }

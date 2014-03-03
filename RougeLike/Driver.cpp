@@ -25,17 +25,24 @@ void Driver::draw(){
 
 	int stop_x = start_x + tl_xres();
 	int stop_y = start_y + tl_yres();
-
 	
-	
-
 	tl_framestart(0);
 	for(int y= start_y; y < (Map.get_y_dim() + start_y) ; y++){
 	   //draw map
 		for(int x = start_x; x < (Map.get_x_dim() + start_x) ; x++){
 				tl_rendertile(Map.get_tile(x, y), x - start_x , y- start_y);
+				
+				
 			}
 		}
+		for(int a = 0; a < ActorManager.loot.size(); a++){
+		
+		if( ActorManager.loot[a].location.get_x() >= start_x && ActorManager.loot[a].location.get_x() <= stop_x && ActorManager.loot[a].location.get_y() >= start_y && ActorManager.loot[a].location.get_y() <= stop_y){
+			tl_rendertile( ActorManager.loot[a].getTile() , ActorManager.loot[a].location.get_x() - start_x , ActorManager.loot[a].location.get_y()- start_y);
+			
+		}
+
+	}
 
 	
 	for(int a = 0; a < ActorManager.enemies.size(); a++){
@@ -46,6 +53,8 @@ void Driver::draw(){
 		}
 
 	}
+
+
 		tl_rendertile( '@' ,(tl_xres() / 2) ,(tl_yres() / 2) );
 
 
@@ -83,16 +92,11 @@ void Driver::update(){
 				Map.setOccupied(ActorManager.enemies[z].location.get_x() , ActorManager.enemies[z].location.get_y() , true);
 			}
 		}
-
 		
 
-
-		
-	//if npc is with in 3 of player move closer by 1
-	
-	//if npc is within 1 of player attack
 
 	}
+	ActorManager.pickUp(ActorManager.whatIsAt(ActorManager.Player.location.get_x() , ActorManager.Player.location.get_y() ) );
 
 }
 void Driver::run(){
@@ -101,16 +105,11 @@ void Driver::run(){
 	int y_pos =1;
 	int x_pos = 1;
 
-	    //ActorManager.Player.location.teleport(3,3);
+	    
 	    tl_framestart(0);
 		for(;;){
 
-		//process user input
-		//update game state
-		//draw
 
-		
-		//tl_framestart(0);
 		draw();
 		bool attacking = false;
 		int attackIndex = -1;
@@ -158,7 +157,7 @@ void Driver::run(){
 		}
 
 		//is attacking
-		if(attacking){
+		if((attacking) && (attackIndex != -1 )){
 			
 			ActorManager.fight(-1, attackIndex);
 
@@ -168,19 +167,20 @@ void Driver::run(){
     }
 }
 void Driver::BuildWorld(){
-	
+	int decider;
 	coordinate  temp;
 	temp =  Map.setup(100, 100, 20) ;
 	ActorManager.Player.location.teleport(temp.get_x(), temp.get_y() );
 	ActorManager.Player.birth(50,100,40,10,3,0x000,"Player1");
 	
+	//put 1 creature in each room
+	
 
-
-	//put 1 creature in each room;
-	int decider;
 	for( int a = 1; a < Map.getNumberOfRooms(); a++){
 		Actor temp;
+		Item tempItem;
 		decider = rand() % 10;
+		tempItem.rollItem();
 		
         if( decider == 0){
 			temp.birth(100,100,6,4,30,0x96,"creep");
@@ -217,7 +217,9 @@ void Driver::BuildWorld(){
 
 		}
 		Map.setOccupied( Map.getRoomX(a), Map.getRoomY(a), true);
+		tempItem.location.teleport(Map.getRoomX(a), Map.getRoomY(a));
 		ActorManager.enemies.push_back(temp);
+		ActorManager.loot.push_back(tempItem);
 
 		
 	}

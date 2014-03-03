@@ -28,6 +28,7 @@ public:
 	bool isOccupied(int x, int y);
 
 
+
 	~levelMap();
 private:
 	Cell ** Map;
