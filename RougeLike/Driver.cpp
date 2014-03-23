@@ -18,6 +18,7 @@ Driver::Driver(){
 	int y_pos = 1;
 	int temp=0;
 	BuildWorld();
+	ActorManager.Log.logSetup();
 }
 void Driver::draw(){
 	int start_x =  ActorManager.Player.location.get_x() - (tl_xres() /2);
@@ -25,6 +26,9 @@ void Driver::draw(){
 
 	int stop_x = start_x + tl_xres();
 	int stop_y = start_y + tl_yres();
+
+	int log_x = stop_x -10;
+	int log_y = stop_y - 10;
 	
 	tl_framestart(0);
 	for(int y= start_y; y < (Map.get_y_dim() + start_y) ; y++){
@@ -54,8 +58,9 @@ void Driver::draw(){
 
 	}
 
-
+	//drawLog();
 		tl_rendertile( '@' ,(tl_xres() / 2) ,(tl_yres() / 2) );
+		
 
 
 }
@@ -69,6 +74,7 @@ void Driver::update(){
 	for(int z= 0; z < ActorManager.enemies.size(); z++){
 		if(ActorManager.rangeToPlayer(z) == 1){
 			ActorManager.fight(z, -1);
+			ActorManager.Log.fight( ActorManager.enemies[z].getName(),"Player");
 		}else if(ActorManager.rangeToPlayer(z) < 3 && ActorManager.rangeToPlayer(z) >1 ){
 
 			Map.setOccupied(ActorManager.enemies[z].location.get_x(), ActorManager.enemies[z].location.get_y(), false);
@@ -97,6 +103,7 @@ void Driver::update(){
 
 	}
 	ActorManager.pickUp(ActorManager.whatIsAt(ActorManager.Player.location.get_x() , ActorManager.Player.location.get_y() ) );
+	
 
 }
 void Driver::run(){
@@ -160,6 +167,7 @@ void Driver::run(){
 		if((attacking) && (attackIndex != -1 )){
 			
 			ActorManager.fight(-1, attackIndex);
+			ActorManager.Log.fight("Player", ActorManager.enemies[attackIndex].getName());
 
 		}
 		
@@ -178,9 +186,9 @@ void Driver::BuildWorld(){
 
 	for( int a = 1; a < Map.getNumberOfRooms(); a++){
 		Actor temp;
-		Item tempItem;
+		Item  * tempItem = new Item;
 		decider = rand() % 10;
-		tempItem.rollItem();
+		tempItem->rollItem();
 		
         if( decider == 0){
 			temp.birth(100,100,6,4,30,0x96,"creep");
@@ -217,11 +225,23 @@ void Driver::BuildWorld(){
 
 		}
 		Map.setOccupied( Map.getRoomX(a), Map.getRoomY(a), true);
-		tempItem.location.teleport(Map.getRoomX(a), Map.getRoomY(a));
+		tempItem->location.teleport(Map.getRoomX(a), Map.getRoomY(a));
 		ActorManager.enemies.push_back(temp);
-		ActorManager.loot.push_back(tempItem);
+		ActorManager.loot.push_back(*tempItem);
 
 		
 	}
 	
+}
+void Driver::drawLog(){
+	tl_scale(2);
+	int log_x_res = tl_xres() / 4;
+	int log_y_res = tl_yres() / 8;
+	string log_out = ActorManager.Log.getLogForOutput();
+	for (int x =(tl_xres() - log_x_res) ; x < tl_xres(); x++){
+		tl_rendertile(log_out[tl_xres() - x] ,x, log_y_res);
+	}
+
+
+	tl_scale(1);
 }

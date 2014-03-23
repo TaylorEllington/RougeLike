@@ -41,7 +41,7 @@ private:
 	void splash(int x, int y, int rec);
 	void link();
 	void flood();
-
+	void drawLog();
 	void corridorLink(int me_x, int me_y, int target_x, int target_y);
 
 

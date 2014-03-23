@@ -79,6 +79,7 @@
     <ClCompile Include="Driver.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="levelMap.cpp" />
+    <ClCompile Include="log.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +90,7 @@
     <ClInclude Include="Driver.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="levelMap.h" />
+    <ClInclude Include="log.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

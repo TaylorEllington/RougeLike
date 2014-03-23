@@ -17,6 +17,7 @@ public:
 	int getDamageMulti();
 	int getDef();
 	int getTile();
+	string getName();
 	void doDamage(int);
 
 	//is it alive?

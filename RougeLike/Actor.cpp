@@ -1,6 +1,8 @@
 #include "Actor.h"
 
-
+string Actor::getName(){
+	return name;
+}
 int Actor::getHealth(){
 	return health;
 }

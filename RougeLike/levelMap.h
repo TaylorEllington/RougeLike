@@ -1,6 +1,6 @@
 #pragma once
 #include "Cell.h"
-
+#include "log.h"
 #include <iostream>
 #include "Coordinate.h"
 #include <cstdlib>
@@ -28,7 +28,7 @@ public:
 	bool isOccupied(int x, int y);
 
 
-
+	
 	~levelMap();
 private:
 	Cell ** Map;

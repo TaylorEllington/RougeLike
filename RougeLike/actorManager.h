@@ -3,6 +3,7 @@
 #include "Actor.h"
 #include "Player.h"
 #include <vector>
+#include "log.h"
 using namespace std;
 
 class actorManager{
@@ -11,6 +12,7 @@ public:
 	vector<Item> inventory;
 	vector<Actor> enemies;
 	Actor Player;
+	gamelog Log;
 
 	void fight(int atkr, int defr);
 	bool isAlive(int index);

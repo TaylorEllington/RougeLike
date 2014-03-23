@@ -21,9 +21,14 @@ void Item::rollItem(){
 		boostDamage = rand() % 50;
 		type = rand() % 3;
 		
+			
+		if(type == 0 ){
 			tile=0x254; //weapon
-		
-		
+		} else if(type == 1){
+			tile=0x221; //potion
+		} else if(type == 2 ){
+			tile=0x2D4; //armor
+		}
 
 	}
 }

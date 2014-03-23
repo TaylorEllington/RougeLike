@@ -90,5 +90,6 @@
 		temp = loot[index];
 		loot.erase(loot.begin() + index);
 		inventory.push_back(temp);
+		Log.findItem(" an Item");
 		}
 	}
